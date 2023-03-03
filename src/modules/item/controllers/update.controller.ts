@@ -18,7 +18,7 @@ export const update = async (req: Request, res: Response, next: NextFunction) =>
       throw new ApiError(401, { message: "Unauthorized Access" });
     }
     const authUser = await verifyTokenService.handle(authorizationHeader);
-    const found = authUser.permissions.includes("archive-item");
+    const found = authUser.permissions.includes("update-item");
     if (!found) {
       throw new ApiError(403);
     }

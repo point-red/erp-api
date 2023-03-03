@@ -1,15 +1,15 @@
 import ApiError from "@point-hub/express-error-handler/lib/api-error.js";
 import { NextFunction, Request, Response } from "express";
-import { DestroyItemService } from "../services/destroy.service.js";
 import { db } from "@src/database/database.js";
 import { VerifyTokenUserService } from "@src/modules/auth/services/verify-token.service.js";
+import { DeleteItemGroupService } from "@src/modules/item-group/services/delete.service.js";
 
 export const destroy = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const session = db.startSession();
     db.startTransaction();
 
-    const destroyItemService = new DestroyItemService(db);
+    const deleteItemGroupService = new DeleteItemGroupService(db);
     const verifyTokenService = new VerifyTokenUserService(db);
     const authorizationHeader = req.headers.authorization ?? "";
 
@@ -17,11 +17,11 @@ export const destroy = async (req: Request, res: Response, next: NextFunction) =
       throw new ApiError(401, { message: "Unauthorized Access" });
     }
     const authUser = await verifyTokenService.handle(authorizationHeader);
-    const found = authUser.permissions.includes("delete-item");
+    const found = authUser.permissions.includes("delete-item-group");
     if (!found) {
       throw new ApiError(403);
     }
-    await destroyItemService.handle(req.params.id, { session });
+    await deleteItemGroupService.handle(req.params.id, { session });
 
     await db.commitTransaction();
 

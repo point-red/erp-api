@@ -21,7 +21,6 @@ export class ItemService {
     });
 
     const itemRepository = new ItemRepository(this.db);
-    console.log(itemEntity.item);
     return await itemRepository.create(itemEntity.item, { session });
   }
 }

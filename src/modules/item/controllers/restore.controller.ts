@@ -18,7 +18,7 @@ export const restore = async (req: Request, res: Response, next: NextFunction) =
     const verifyTokenUserService = new VerifyTokenUserService(db);
     const authUser = await verifyTokenUserService.handle(authorizationHeader);
 
-    const found = authUser.permissions.includes("archive-item");
+    const found = authUser.permissions.includes("restore-item");
     if (!found) {
       throw new ApiError(403);
     }
