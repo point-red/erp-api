@@ -2,6 +2,7 @@ import DatabaseConnection, { QueryInterface } from "@src/database/connection.js"
 import { ItemInterface } from "@src/modules/item/entities/item.entity.js";
 import { ItemRepository } from "@src/modules/item/repositories/item.repository.js";
 import { ItemGroupRepository } from "@src/modules/item-group/repositories/item-group.repository";
+import { ItemGroupInterface } from "@src/modules/item-group/entities/item-group.entity";
 
 export class ReadManyItemGroupService {
   private db: DatabaseConnection;
@@ -13,7 +14,7 @@ export class ReadManyItemGroupService {
     const result = await itemGroupRepository.readMany(query);
 
     return {
-      roles: result.data as unknown as Array<ItemInterface>,
+      item: result.data as unknown as Array<ItemGroupInterface>,
       pagination: result.pagination,
     };
   }

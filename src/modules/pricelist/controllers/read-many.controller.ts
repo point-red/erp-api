@@ -3,9 +3,8 @@ import { NextFunction, Request, Response } from "express";
 import { QueryInterface } from "@src/database/connection.js";
 import { db } from "@src/database/database.js";
 import { VerifyTokenUserService } from "@src/modules/auth/services/verify-token.service.js";
-
-import { ItemGroupInterface } from "@src/modules/item-group/entities/item-group.entity.js";
-import { ReadManyItemGroupService } from "@src/modules/item-group/services/read-many.service.js";
+import { PricelistInterface } from "@src/modules/pricelist/entities/pricelist.entity.js";
+import { ReadManyPricelistService } from "@src/modules/pricelist/services/read-many.service.js";
 
 export interface PaginationInterface {
   page: number;
@@ -15,14 +14,14 @@ export interface PaginationInterface {
 }
 
 export interface ResponseInterface {
-  items: Array<ItemGroupInterface>;
+  price: Array<PricelistInterface>;
   pagination: PaginationInterface;
 }
 
 export const readMany = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const authorizationHeader = req.headers.authorization ?? "";
-    const readManyItemGroupService = new ReadManyItemGroupService(db);
+    const readManyPricelistService = new ReadManyPricelistService(db);
     const tokenService = new VerifyTokenUserService(db);
     if (authorizationHeader === "") {
       throw new ApiError(401);
@@ -30,7 +29,7 @@ export const readMany = async (req: Request, res: Response, next: NextFunction) 
 
     const authUser = await tokenService.handle(authorizationHeader);
 
-    const found = authUser.permissions.includes("read-item-group");
+    const found = authUser.permissions.includes("read-many-pricelist");
     if (!found) {
       throw new ApiError(403);
     }
@@ -42,7 +41,7 @@ export const readMany = async (req: Request, res: Response, next: NextFunction) 
       sort: (req.query.sort as string) ?? "",
     };
 
-    const result = await readManyItemGroupService.handle(iQuery);
+    const result = await readManyPricelistService.handle(iQuery);
 
     const pagination: PaginationInterface = {
       page: result.pagination.page,
@@ -52,7 +51,7 @@ export const readMany = async (req: Request, res: Response, next: NextFunction) 
     };
 
     const response: ResponseInterface = {
-      items: result.item,
+      price: result.price,
       pagination: pagination,
     };
 
