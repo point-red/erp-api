@@ -2,7 +2,6 @@ import ApiError from "@point-hub/express-error-handler/lib/api-error.js";
 import { NextFunction, Request, Response } from "express";
 import { db } from "@src/database/database.js";
 import { VerifyTokenUserService } from "@src/modules/auth/services/verify-token.service.js";
-import { validate } from "@src/modules/item/request/item.request.js";
 import { ArchiveService } from "@src/modules/item/services/archive.service.js";
 
 export const archive = async (req: Request, res: Response, next: NextFunction) => {

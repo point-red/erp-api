@@ -1,6 +1,5 @@
 import DatabaseConnection, { DeleteOptionsInterface } from "@src/database/connection.js";
-import { ItemRepository } from "@src/modules/item/repositories/item.repository.js";
-import { ItemGroupRepository } from "@src/modules/item-group/repositories/item-group.repository";
+import { ItemGroupRepository } from "@src/modules/item-group/repositories/item-group.repository.js";
 
 export class DeleteItemGroupService {
   private db: DatabaseConnection;

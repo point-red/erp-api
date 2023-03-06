@@ -1,6 +1,6 @@
 import { ItemGroupInterface } from "../entities/item-group.entity.js";
 import DatabaseConnection from "@src/database/connection.js";
-import { ItemGroupRepository } from "@src/modules/item-group/repositories/item-group.repository";
+import { ItemGroupRepository } from "@src/modules/item-group/repositories/item-group.repository.js";
 
 export class ReadItemGroupService {
   private db: DatabaseConnection;

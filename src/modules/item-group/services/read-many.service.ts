@@ -1,8 +1,6 @@
 import DatabaseConnection, { QueryInterface } from "@src/database/connection.js";
-import { ItemInterface } from "@src/modules/item/entities/item.entity.js";
-import { ItemRepository } from "@src/modules/item/repositories/item.repository.js";
-import { ItemGroupRepository } from "@src/modules/item-group/repositories/item-group.repository";
-import { ItemGroupInterface } from "@src/modules/item-group/entities/item-group.entity";
+import { ItemGroupInterface } from "@src/modules/item-group/entities/item-group.entity.js";
+import { ItemGroupRepository } from "@src/modules/item-group/repositories/item-group.repository.js";
 
 export class ReadManyItemGroupService {
   private db: DatabaseConnection;
