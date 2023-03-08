@@ -20,6 +20,7 @@ export interface ResponseInterface {
 
 export const readMany = async (req: Request, res: Response, next: NextFunction) => {
   try {
+    db.startTransaction();
     const authorizationHeader = req.headers.authorization ?? "";
     const readManyRoleService = new ReadManyItemService(db);
     const tokenService = new VerifyTokenUserService(db);
@@ -41,6 +42,8 @@ export const readMany = async (req: Request, res: Response, next: NextFunction) 
       sort: (req.query.sort as string) ?? "",
     };
 
+    console.log(iQuery);
+
     const result = await readManyRoleService.handle(iQuery);
 
     const pagination: PaginationInterface = {
@@ -56,7 +59,11 @@ export const readMany = async (req: Request, res: Response, next: NextFunction) 
     };
 
     res.status(200).json(response);
+    await db.commitTransaction();
   } catch (error) {
+    await db.abortTransaction();
     next(error);
+  } finally {
+    await db.endSession();
   }
 };

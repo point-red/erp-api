@@ -8,6 +8,7 @@ export class ReadManyItemService {
     this.db = db;
   }
   public async handle(query: QueryInterface) {
+    console.log("masuk kesini ");
     const itemRepository = new ItemRepository(this.db);
     const result = await itemRepository.readMany(query);
 

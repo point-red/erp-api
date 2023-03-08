@@ -12,10 +12,7 @@ export class ItemGroupService {
     const itemGroupEntity = new ItemGroupEntity({
       name: doc.name,
     });
-
-    console.log(itemGroupEntity.item);
-
-    const itemRepository = new ItemGroupRepository(this.db);
-    return await itemRepository.create(itemGroupEntity.item, { session });
+    const itemGroupRepository = new ItemGroupRepository(this.db);
+    return await itemGroupRepository.create(itemGroupEntity.item, { session });
   }
 }

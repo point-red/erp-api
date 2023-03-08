@@ -27,13 +27,9 @@ export class ItemGroupRepository extends BaseRepository {
     return await this.collection().read(id, options);
   }
 
-  public async readMany(
-    query: QueryInterface,
-    options?: ReadManyOptionsInterface | undefined
-  ): Promise<ReadManyResultInterface> {
-    throw await this.collection().readMany(query, options);
+  public async readMany(query: QueryInterface, options?: ReadManyOptionsInterface): Promise<ReadManyResultInterface> {
+    return await this.collection().readMany(query, options);
   }
-
   public async update(
     id: string,
     document: DocumentInterface,

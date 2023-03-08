@@ -26,6 +26,7 @@ export const update = async (req: Request, res: Response, next: NextFunction) =>
 
     await db.commitTransaction();
 
+    console.log("success");
     res.status(204).json();
   } catch (error) {
     await db.abortTransaction();
