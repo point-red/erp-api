@@ -38,8 +38,8 @@ export class PricelistRepository extends BaseRepository {
     return await this.collection().update(id, document, options);
   }
 
-  public async delete(id: string, options?: DeleteOptionsInterface | undefined): Promise<DeleteResultInterface> {
-    throw await this.collection().delete(id, options);
+  public async delete(id: string, options?: DeleteOptionsInterface): Promise<DeleteResultInterface> {
+    return await this.collection().delete(id, options);
   }
   public async aggregate(pipeline: any, query: any) {
     return await this.collection().aggregate(pipeline, query);

@@ -8,9 +8,10 @@ export class PricelistService {
     this.db = db;
   }
 
-  public async handle(doc: DocumentInterface, session: unknown) {
+  public async handle(userId: string, doc: DocumentInterface, session: unknown) {
     const pricelistEntity = new PricelistEntity({
       name: doc.name,
+      createdBy_id: userId,
     });
 
     const pricelistRepository = new PricelistRepository(this.db);

@@ -35,7 +35,6 @@ export class ReadUserService {
       pageSize: 10,
     });
 
-
     const result = (await aggregateResult) as any;
 
     return result.data[0];

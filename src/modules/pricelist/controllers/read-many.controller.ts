@@ -14,7 +14,7 @@ export interface PaginationInterface {
 }
 
 export interface ResponseInterface {
-  price: Array<PricelistInterface>;
+  data: Array<PricelistInterface>;
   pagination: PaginationInterface;
 }
 
@@ -51,7 +51,7 @@ export const readMany = async (req: Request, res: Response, next: NextFunction) 
     };
 
     const response: ResponseInterface = {
-      price: result.price,
+      data: result.price,
       pagination: pagination,
     };
 

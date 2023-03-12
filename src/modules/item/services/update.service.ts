@@ -7,7 +7,7 @@ export class UpdateItemService {
   constructor(db: DatabaseConnection) {
     this.db = db;
   }
-  public async handle(id: string, doc: DocumentInterface, session: unknown) {
+  public async handle(userId: string, id: string, doc: DocumentInterface, session: unknown) {
     const itemEntity = new ItemEntity({
       code: doc.code,
       name: doc.name,
@@ -17,6 +17,7 @@ export class UpdateItemService {
       unit: doc.unit,
       converter: doc.converter,
       isArchived: doc.isArchived,
+      updatedBy_id: userId,
     });
 
     const itemRepository = new ItemRepository(this.db);

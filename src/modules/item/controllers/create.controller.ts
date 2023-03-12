@@ -22,9 +22,9 @@ export const create = async (req: Request, res: Response, next: NextFunction) =>
       throw new ApiError(403);
     }
 
-    validate(req.body);
-
-    const result = await createItemService.handle(req.body, session);
+    await validate(req.body);
+    const userId: string = authUser._id?.toString() || "";
+    const result = await createItemService.handle(userId, req.body, session);
 
     await db.commitTransaction();
     res.status(201).json({

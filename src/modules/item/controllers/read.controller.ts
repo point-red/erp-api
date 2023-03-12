@@ -24,7 +24,7 @@ export const read = async (req: Request, res: Response, next: NextFunction) => {
     const result = await readItemService.handle(req.params.id);
 
     await db.commitTransaction();
-    res.status(200).json(result);
+    res.status(200).json({ data: result });
   } catch (error) {
     await db.abortTransaction();
     next(error);

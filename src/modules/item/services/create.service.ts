@@ -8,7 +8,7 @@ export class ItemService {
     this.db = db;
   }
 
-  public async handle(doc: DocumentInterface, session: unknown) {
+  public async handle(userId: string, doc: DocumentInterface, session: unknown) {
     const itemEntity = new ItemEntity({
       code: doc.code,
       name: doc.name,
@@ -18,6 +18,7 @@ export class ItemService {
       unit: doc.unit,
       converter: doc.converter,
       isArchived: false,
+      createdBy_id: userId,
     });
 
     const itemRepository = new ItemRepository(this.db);

@@ -29,6 +29,14 @@ export async function createCollection(db: IDatabaseAdapter) {
           bsonType: "date",
           description: "must be a date and is required",
         },
+        createdBy_id: {
+          bsonType: "string",
+          description: "must be a string and is required",
+        },
+        updatedBy_id: {
+          bsonType: "string",
+          description: "must be a string and is required",
+        },
         code: {
           bsonType: "string",
           description: "must be a string and is required",

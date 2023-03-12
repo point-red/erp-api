@@ -23,13 +23,12 @@ export const restore = async (req: Request, res: Response, next: NextFunction) =
       throw new ApiError(403);
     }
 
-    validate(req.body);
     const archiveService = new RestoreItemService(db);
     await archiveService.handle(req.params.id, req.body, session);
 
     await db.commitTransaction();
-    res.status(200).json({
-      isArchived: true,
+    res.status(204).json({
+      isArchived: false,
     });
   } catch (error) {
     await db.abortTransaction();

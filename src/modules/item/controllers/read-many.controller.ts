@@ -14,7 +14,7 @@ export interface PaginationInterface {
 }
 
 export interface ResponseInterface {
-  items: Array<ItemInterface>;
+  data: Array<ItemInterface>;
   pagination: PaginationInterface;
 }
 
@@ -54,7 +54,7 @@ export const readMany = async (req: Request, res: Response, next: NextFunction) 
     };
 
     const response: ResponseInterface = {
-      items: result.roles,
+      data: result.roles,
       pagination: pagination,
     };
 

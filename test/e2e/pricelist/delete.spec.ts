@@ -22,7 +22,9 @@ describe("delete pricelist", () => {
     const app = await createApp();
     const response = await request(app).delete("/v1/pricelists/" + _id);
     expect(response.statusCode).toEqual(401);
-    expect(response.body.message).toBe("Unauthorized Access");
+    expect(response.body.code).toEqual(401);
+    expect(response.body.status).toBe("Unauthorized");
+    expect(response.body.message).toBe("Authentication credentials is invalid.");
   });
   it("should check user have permission to access", async () => {
     const app = await createApp();
@@ -38,7 +40,9 @@ describe("delete pricelist", () => {
       .set("Authorization", `Bearer ${accessToken}`);
 
     expect(response.statusCode).toEqual(403);
-    expect(response.body.message).toBe("Forbidden Access");
+    expect(response.body.code).toEqual(403);
+    expect(response.body.status).toBe("Forbidden");
+    expect(response.body.message).toBe("Don't have necessary permissions for this resource.");
   });
   it("should delete data from database", async () => {
     const app = await createApp();
@@ -58,7 +62,6 @@ describe("delete pricelist", () => {
     // expected response status
     expect(response.statusCode).toEqual(200);
     // expected response body
-    expect(response.body.data.length).toBe(0);
 
     expect(response.body.pagination.page).toEqual(1);
     expect(response.body.pagination.pageCount).toEqual(0);

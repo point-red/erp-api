@@ -19,18 +19,21 @@ export const update = async (req: Request, res: Response, next: NextFunction) =>
       throw new ApiError(401, { message: "Unauthorized Access" });
     }
 
-    validate(req.body);
+    await validate(req.body);
     const authUser = await verifyTokenService.handle(authorizationHeader);
     const found = authUser.permissions.includes("update-item");
     if (!found) {
       throw new ApiError(403);
     }
-    await updateRoleService.handle(req.params.id, req.body, session);
+
+    const userId: string = authUser._id?.toString() || "";
+    await updateRoleService.handle(userId, req.params.id, req.body, session);
 
     await db.commitTransaction();
 
     res.status(204).json();
   } catch (error) {
+    console.log("ini seharisnya error");
     await db.abortTransaction();
     next(error);
   } finally {

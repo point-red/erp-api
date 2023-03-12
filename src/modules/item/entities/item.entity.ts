@@ -9,6 +9,10 @@ export interface ItemInterface {
   hasExpiryDate?: boolean;
   unit?: string;
   isArchived: boolean;
+  updatedBy_id?: string;
+  createdBy_id?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
   converter?: [
     {
       name?: string;

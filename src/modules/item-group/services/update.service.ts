@@ -7,9 +7,10 @@ export class UpdateItemGroupService {
   constructor(db: DatabaseConnection) {
     this.db = db;
   }
-  public async handle(id: string, doc: DocumentInterface, session: unknown) {
+  public async handle(userId: string, id: string, doc: DocumentInterface, session: unknown) {
     const itemGroupEntity = new ItemGroupEntity({
       name: doc.name,
+      updatedBy_id: userId,
     });
 
     const itemGroupRepository = new ItemGroupRepository(this.db);

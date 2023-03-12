@@ -7,7 +7,9 @@ describe("list all item groups", () => {
     // send request to list all item groups
     const response = await request(app).get("/v1/item-groups");
     expect(response.statusCode).toEqual(401);
-    expect(response.body.message).toBe("Unauthorized Access");
+    expect(response.body.code).toEqual(401);
+    expect(response.body.status).toBe("Unauthorized");
+    expect(response.body.message).toBe("Authentication credentials is invalid.");
   });
   it("should check user have permission to access", async () => {
     const app = await createApp();
@@ -21,7 +23,9 @@ describe("list all item groups", () => {
     const response = await request(app).get("/v1/item-groups").set("Authorization", `Bearer ${accessToken}`);
 
     expect(response.statusCode).toEqual(403);
-    expect(response.body.message).toBe("Forbidden Access");
+    expect(response.body.code).toEqual(403);
+    expect(response.body.status).toBe("Forbidden");
+    expect(response.body.message).toBe("Don't have necessary permissions for this resource.");
   });
   it("should read data from database", async () => {
     const app = await createApp();
@@ -69,7 +73,9 @@ describe("read item group", () => {
     // send request to list all items
     const response = await request(app).get("/v1/item-groups");
     expect(response.statusCode).toEqual(401);
-    expect(response.body.message).toBe("Unauthorized Access");
+    expect(response.body.code).toEqual(401);
+    expect(response.body.status).toBe("Unauthorized");
+    expect(response.body.message).toBe("Authentication credentials is invalid.");
   });
   it("should check user have permission to access", async () => {
     const app = await createApp();
@@ -83,7 +89,9 @@ describe("read item group", () => {
     const response = await request(app).get("/v1/item-groups").set("Authorization", `Bearer ${accessToken}`);
 
     expect(response.statusCode).toEqual(403);
-    expect(response.body.message).toBe("Forbidden Access");
+    expect(response.body.code).toEqual(403);
+    expect(response.body.status).toBe("Forbidden");
+    expect(response.body.message).toBe("Don't have necessary permissions for this resource.");
   });
   it("should read data from database", async () => {
     const app = await createApp();

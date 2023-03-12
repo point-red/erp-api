@@ -8,7 +8,7 @@ export class ItemGroupService {
     this.db = db;
   }
 
-  public async handle(doc: DocumentInterface, session: unknown) {
+  public async handle(userId: string, doc: DocumentInterface, session: unknown) {
     const itemGroupEntity = new ItemGroupEntity({
       name: doc.name,
     });
