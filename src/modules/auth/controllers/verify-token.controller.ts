@@ -19,7 +19,7 @@ export const verifyToken = async (req: Request, res: Response, next: NextFunctio
       name: result.name,
       email: result.email,
       username: result.username,
-      role: result.role,
+      roleName: result.roleName,
     });
   } catch (error) {
     next(error);
