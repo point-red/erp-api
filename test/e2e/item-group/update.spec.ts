@@ -1,7 +1,7 @@
 import request from "supertest";
 import { createApp } from "@src/app.js";
 import { db } from "@src/database/database";
-import { ReadItemService } from "@src/modules/item/services/read.service";
+import { ReadItemService } from "@src/modules/item/services/read.service.js";
 
 describe("update item group", () => {
   let _id = "";

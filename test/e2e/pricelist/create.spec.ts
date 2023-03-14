@@ -1,6 +1,6 @@
 import request from "supertest";
 import { createApp } from "@src/app.js";
-import { ReadPricelistService } from "@src/modules/pricelist/services/read.service";
+import { ReadPricelistService } from "@src/modules/pricelist/services/read.service.js";
 import { db } from "@src/database/database";
 
 describe("create pricelist", () => {

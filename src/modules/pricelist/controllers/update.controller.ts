@@ -3,7 +3,7 @@ import { NextFunction, Request, Response } from "express";
 import { UpdatePricelistService } from "../services/update.service.js";
 import { db } from "@src/database/database.js";
 import { VerifyTokenUserService } from "@src/modules/auth/services/verify-token.service.js";
-import { validate } from "@src/modules/item-group/request/item-group.request";
+import { validate } from "@src/modules/pricelist/request/pricelist.request.js";
 
 export const update = async (req: Request, res: Response, next: NextFunction) => {
   try {
