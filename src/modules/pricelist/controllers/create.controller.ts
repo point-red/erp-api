@@ -2,7 +2,7 @@ import ApiError from "@point-hub/express-error-handler/lib/api-error.js";
 import { NextFunction, Request, Response } from "express";
 import { db } from "@src/database/database.js";
 import { VerifyTokenUserService } from "@src/modules/auth/services/verify-token.service.js";
-import { validate } from "@src/modules/item-group/request/item-group.request.js";
+import { validate } from "@src/modules/pricelist/request/pricelist.request.js";
 import { PricelistService } from "@src/modules/pricelist/services/create.service.js";
 
 export const create = async (req: Request, res: Response, next: NextFunction) => {
@@ -22,7 +22,7 @@ export const create = async (req: Request, res: Response, next: NextFunction) =>
       throw new ApiError(403);
     }
 
-    await validate(req.body);
+    await validate(req.body, "create");
     const userId: string = authUser._id?.toString() || "";
     const result = await pricelistService.handle(userId, req.body, session);
 

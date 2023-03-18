@@ -6,6 +6,7 @@ describe("list all items", () => {
     const app = await createApp();
     // send request to create item
     const response = await request(app).get("/v1/items");
+
     expect(response.statusCode).toEqual(401);
     expect(response.body.code).toEqual(401);
     expect(response.body.status).toBe("Unauthorized");
@@ -21,6 +22,7 @@ describe("list all items", () => {
     const accessToken = authResponse.body.accessToken;
     // send request to read item
     const response = await request(app).get("/v1/items").set("Authorization", `Bearer ${accessToken}`);
+    console.log(response.body, "ini seharusnya response");
 
     expect(response.statusCode).toEqual(403);
     expect(response.body.code).toEqual(403);
@@ -105,7 +107,9 @@ describe("read item", () => {
   it("should check user is authorized", async () => {
     const app = await createApp();
     // send request to create item
-    const response = await request(app).get("/v1/items");
+    const response = await request(app).get("/v1/items/1");
+    console.log(response.body, "ini seharusnya response");
+    console.log(response.statusCode, "ini seharusnya response");
     expect(response.statusCode).toEqual(401);
     expect(response.body.code).toEqual(401);
     expect(response.body.status).toBe("Unauthorized");

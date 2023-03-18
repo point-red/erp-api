@@ -3,7 +3,7 @@ import { createApp } from "@src/app.js";
 
 describe("archive item", () => {
   let _id = "";
-  beforeAll(async () => {
+  beforeEach(async () => {
     const app = await createApp();
     // get access token for authorization request
     const authResponse = await request(app).post("/v1/auth/signin").send({

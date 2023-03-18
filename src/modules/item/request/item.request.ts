@@ -3,12 +3,12 @@ import Validatorjs from "validatorjs";
 import { db } from "@src/database/database.js";
 import { ItemRepository } from "@src/modules/item/repositories/item.repository.js";
 
-export const validate = async (body: any) => {
+export const validate = async (body: any, method: string) => {
   const validation = new Validatorjs(body, {
-    code: "required|exist:item,code",
+    code: `unique:item,code,${method}`,
     unit: "required",
     chartOfAccount: "required",
-    name: "required|exist:item,name",
+    name: `required|unique:item,name,${method}`,
   });
 
   let passes = () => {};
@@ -33,43 +33,50 @@ export const validate = async (body: any) => {
 };
 
 Validatorjs.registerAsync(
-  "exist",
+  "unique",
   async function (value, attribute, req, passes) {
     if (!attribute) throw new ApiError(500);
 
     const attArr = attribute.split(",");
-    if (attArr.length !== 2) throw new ApiError(500);
+    if (attArr.length !== 3) throw new ApiError(500);
 
-    const { 0: table, 1: column } = attArr;
+    const { 0: table, 1: column, 2: method } = attArr;
 
     const aggregates: any = [{ $limit: 1 }];
 
-    if (column === "code") {
-      aggregates.push({
-        $match: {
-          code: value,
-        },
-      });
-    }
-    if (column === "name") {
-      aggregates.push({
-        $match: {
-          name: value,
-        },
-      });
-    }
+    if (method !== "update") {
+      if (column === "code") {
+        aggregates.push({
+          $match: {
+            code: value,
+          },
+        });
+      }
 
-    console.log("check", value);
-    const itemRepository = new ItemRepository(db);
-    const aggregateResult = itemRepository.aggregate(aggregates, {
-      page: 1,
-      pageSize: 10,
-    });
+      console.log(method, "ini methdo", column);
 
-    const result = (await aggregateResult) as any;
-    if (result.data.length > 0) {
-      passes(false, `${column} is exists`); // return false if value exists
-      return;
+      if (column === "name") {
+        aggregates.push({
+          $match: {
+            name: value,
+          },
+        });
+        console.log(method, "ini methdo", column, value);
+      }
+
+      const itemRepository = new ItemRepository(db);
+      const aggregateResult = itemRepository.aggregate(aggregates, {
+        page: 1,
+        pageSize: 10,
+      });
+
+      const result = (await aggregateResult) as any;
+
+      console.log("masuk kesini", aggregates);
+      if (result.data.length > 0) {
+        passes(false, `${column} is exists`); // return false if value exists
+        return;
+      }
     }
     passes();
   },

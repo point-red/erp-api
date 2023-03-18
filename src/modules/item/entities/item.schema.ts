@@ -19,7 +19,7 @@ export async function createCollection(db: IDatabaseAdapter) {
 
     await db.updateSchema(name, {
       bsonType: "object",
-      required: ["code", "name", "chartOfAccount", "unit"],
+      required: ["name", "chartOfAccount", "unit"],
       properties: {
         createdAt: {
           bsonType: "date",

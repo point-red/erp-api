@@ -15,7 +15,7 @@ export interface PaginationInterface {
 }
 
 export interface ResponseInterface {
-  items: Array<ItemGroupInterface>;
+  data: Array<ItemGroupInterface>;
   pagination: PaginationInterface;
 }
 
@@ -52,7 +52,7 @@ export const readMany = async (req: Request, res: Response, next: NextFunction) 
     };
 
     const response: ResponseInterface = {
-      items: result.item,
+      data: result.item,
       pagination: pagination,
     };
 

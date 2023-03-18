@@ -22,7 +22,7 @@ export const create = async (req: Request, res: Response, next: NextFunction) =>
       throw new ApiError(403);
     }
 
-    await validate(req.body);
+    await validate(req.body, "create");
     const userId: string = authUser._id?.toString() || "";
     const result = await createItemService.handle(userId, req.body, session);
 
@@ -31,6 +31,7 @@ export const create = async (req: Request, res: Response, next: NextFunction) =>
       _id: result._id,
     });
   } catch (error) {
+    console.log(error, "ini error");
     await db.abortTransaction();
     next(error);
   } finally {

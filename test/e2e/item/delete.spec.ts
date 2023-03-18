@@ -27,7 +27,7 @@ describe("delete item", () => {
       ],
     };
     const response = await request(app).post("/v1/items").send(data).set("Authorization", `Bearer ${accessToken}`);
-    console.log(response.body,"response create");
+    console.log(response.body, "response create");
     _id = response.body._id;
   });
 

@@ -24,7 +24,7 @@ export const update = async (req: Request, res: Response, next: NextFunction) =>
       throw new ApiError(403);
     }
 
-    await validate(req.body);
+    await validate(req.body, "update");
     const userId: string = authUser._id?.toString() || "";
     await updatePricelistService.handle(userId, req.params.id, req.body, session);
 

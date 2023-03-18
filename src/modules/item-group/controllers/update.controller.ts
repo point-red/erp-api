@@ -24,15 +24,15 @@ export const update = async (req: Request, res: Response, next: NextFunction) =>
       throw new ApiError(403);
     }
 
-    await validate(req.body);
+    await validate(req.body, "update");
     const userId: string = authUser._id?.toString() || "";
     await updateItemGroupService.handle(userId, req.params.id, req.body, session);
 
     await db.commitTransaction();
 
-    console.log("success");
     res.status(204).json();
   } catch (error) {
+    console.log(error, "ini error mas");
     await db.abortTransaction();
     next(error);
   } finally {

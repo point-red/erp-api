@@ -1,11 +1,12 @@
 import { ApiError } from "@point-hub/express-error-handler";
+import { method } from "lodash";
 import Validatorjs from "validatorjs";
 import { db } from "@src/database/database.js";
 import { ItemGroupRepository } from "@src/modules/item-group/repositories/item-group.repository.js";
 
-export const validate = async (body: any) => {
+export const validate = async (body: any, method: string) => {
   const validation = new Validatorjs(body, {
-    name: "required|exist:item_group,name",
+    name: `required|unique:item_group,name,${method}`,
   });
 
   let passes = () => {};
@@ -30,36 +31,41 @@ export const validate = async (body: any) => {
 };
 
 Validatorjs.registerAsync(
-  "exist",
+  "unique",
   async function (value, attribute, req, passes) {
     if (!attribute) throw new ApiError(500);
 
     const attArr = attribute.split(",");
-    if (attArr.length !== 2) throw new ApiError(500);
+    if (attArr.length !== 3) throw new ApiError(500);
 
-    const { 0: table, 1: column } = attArr;
+    const { 0: table, 1: column, 2: method } = attArr;
 
     const aggregates: any = [{ $limit: 1 }];
 
-    if (column === "name") {
-      aggregates.push({
-        $match: {
-          name: value,
-        },
+    if (method !== "update") {
+      if (column === "name") {
+        aggregates.push({
+          $match: {
+            name: value,
+          },
+        });
+      }
+
+      const itemRepository = new ItemGroupRepository(db);
+      const aggregateResult = itemRepository.aggregate(aggregates, {
+        page: 1,
+        pageSize: 10,
       });
+      console.log(aggregates, "ini agregates");
+
+      const result = (await aggregateResult) as any;
+      console.log(result, method, "method");
+      if (result.data.length > 0) {
+        passes(false, `${column} is exists`); // return false if value exists
+        return;
+      }
     }
 
-    const itemRepository = new ItemGroupRepository(db);
-    const aggregateResult = itemRepository.aggregate(aggregates, {
-      page: 1,
-      pageSize: 10,
-    });
-
-    const result = (await aggregateResult) as any;
-    if (result.data.length > 0) {
-      passes(false, `${column} is exists`); // return false if value exists
-      return;
-    }
     passes();
   },
   ""

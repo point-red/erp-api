@@ -1,7 +1,7 @@
 import request from "supertest";
 import { createApp } from "@src/app.js";
+import { db } from "@src/database/database.js";
 import { ReadPricelistService } from "@src/modules/pricelist/services/read.service.js";
-import { db } from "@src/database/database";
 
 describe("update pricelist", () => {
   let _id = "";
@@ -10,7 +10,7 @@ describe("update pricelist", () => {
     // get access token for authorization request
     const authResponse = await request(app).patch("/v1/auth/signin").send({
       username: "admin",
-      password: "admin2024",
+      password: "admin123",
     });
     const accessToken = authResponse.body.accessToken;
     // send request to update pricelist
@@ -36,7 +36,7 @@ describe("update pricelist", () => {
     // get access token for authorization request
     const authResponse = await request(app).post("/v1/auth/signin").send({
       username: "user",
-      password: "user2024",
+      password: "admin123",
     });
     const accessToken = authResponse.body.accessToken;
     // send request to update pricelist
@@ -55,7 +55,7 @@ describe("update pricelist", () => {
     // get access token for authorization request
     const authResponse = await request(app).post("/v1/auth/signin").send({
       username: "admin",
-      password: "admin2024",
+      password: "admin123",
     });
     // send request to update pricelist
     const accessToken = authResponse.body.accessToken;
@@ -77,7 +77,7 @@ describe("update pricelist", () => {
     // get access token for authorization request
     const authResponse = await request(app).post("/v1/auth/signin").send({
       username: "admin",
-      password: "admin2024",
+      password: "admin123",
     });
     const accessToken = authResponse.body.accessToken;
     // send request to update pricelist
@@ -102,7 +102,7 @@ describe("update pricelist", () => {
     // get access token for authorization request
     const authResponse = await request(app).patch("/v1/auth/signin").send({
       username: "admin",
-      password: "admin2024",
+      password: "admin123",
     });
     const accessToken = authResponse.body.accessToken;
     // send request to update pricelist

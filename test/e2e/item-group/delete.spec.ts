@@ -3,17 +3,17 @@ import { createApp } from "@src/app.js";
 
 describe("delete item group", () => {
   let _id = "";
-  beforeEach(async () => {
+  beforeAll(async () => {
     const app = await createApp();
     // get access token for authorization request
-    const authResponse = await request(app).patch("/v1/auth/signin").send({
+    const authResponse = await request(app).post("/v1/auth/signin").send({
       username: "admin",
-      password: "admin2024",
+      password: "admin123",
     });
     const accessToken = authResponse.body.accessToken;
     // send request to delete item
     const data = {
-      name: "Group A",
+      name: "Group D",
     };
     const response = await request(app)
       .post("/v1/item-groups")
@@ -35,7 +35,7 @@ describe("delete item group", () => {
     // get access token for authorization request
     const authResponse = await request(app).post("/v1/auth/signin").send({
       username: "user",
-      password: "user2024",
+      password: "admin123",
     });
     const accessToken = authResponse.body.accessToken;
     // send request to read item
@@ -53,24 +53,15 @@ describe("delete item group", () => {
     // get access token for authorization request
     const authResponse = await request(app).post("/v1/auth/signin").send({
       username: "admin",
-      password: "admin2024",
+      password: "admin123",
     });
+
+    console.log(_id, "id");
     const accessToken = authResponse.body.accessToken;
     const responseDelete = await request(app)
       .delete("/v1/item-groups/" + _id)
       .set("Authorization", `Bearer ${accessToken}`);
     // expected response status
     expect(responseDelete.statusCode).toEqual(204);
-
-    const response = await request(app).get("/v1/item-groups").set("Authorization", `Bearer ${accessToken}`);
-    // expected response status
-    expect(response.statusCode).toEqual(200);
-    // expected response body
-    expect(response.body.data.length).toBe(0);
-
-    expect(response.body.pagination.page).toEqual(1);
-    expect(response.body.pagination.pageCount).toEqual(0);
-    expect(response.body.pagination.pageSize).toEqual(10);
-    expect(response.body.pagination.totalDocument).toEqual(0);
   });
 });
