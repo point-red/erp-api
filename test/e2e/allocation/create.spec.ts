@@ -1,12 +1,11 @@
 import request from "supertest";
 import { createApp } from "@src/app.js";
-import { db } from "@src/database/database.js";
 
-describe("create customer", () => {
+describe("create allocation", () => {
   it("should check user is authorized", async () => {
     const app = await createApp();
-    // send request to create customer
-    const response = await request(app).post("/v1/customers").send({});
+    // send request to create allocation
+    const response = await request(app).post("/v1/allocations").send({});
     expect(response.statusCode).toEqual(401);
     expect(response.body.message).toBe("Unauthorized Access");
   });
@@ -18,8 +17,8 @@ describe("create customer", () => {
       password: "user2024",
     });
     const accessToken = authResponse.body.accessToken;
-    // send request to create customer
-    const response = await request(app).post("/v1/customers").send({}).set("Authorization", `Bearer ${accessToken}`);
+    // send request to create allocation
+    const response = await request(app).post("/v1/allocations").send({}).set("Authorization", `Bearer ${accessToken}`);
 
     expect(response.statusCode).toEqual(403);
     expect(response.body.message).toBe("Forbidden Access");
@@ -31,26 +30,24 @@ describe("create customer", () => {
       username: "admin",
       password: "admin2024",
     });
-    // send request to create customer
+    // send request to create allocation
     const accessToken = authResponse.body.accessToken;
 
     // do not send all required fields
-    const response = await request(app).post("/v1/customers").send({}).set("Authorization", `Bearer ${accessToken}`);
+    const response = await request(app).post("/v1/allocations").send({}).set("Authorization", `Bearer ${accessToken}`);
     expect(response.statusCode).toEqual(422);
     expect(response.body.message).toBe("Unprocessable Entity");
-    expect(response.body.errors.code).toBe(["code is required"]);
     expect(response.body.errors.name).toBe(["name is required"]);
 
     // only send 1 required fields
     const response2 = await request(app)
-      .post("/v1/customers")
+      .post("/v1/allocations")
       .send({
-        name: "Customer A",
+        name: "allocation A",
       })
       .set("Authorization", `Bearer ${accessToken}`);
     expect(response2.statusCode).toEqual(422);
     expect(response2.body.message).toBe("Unprocessable Entity");
-    expect(response2.body.errors.code).toBe(["code is required"]);
   });
   it("should check unique fields", async () => {
     const app = await createApp();
@@ -60,20 +57,17 @@ describe("create customer", () => {
       password: "admin2024",
     });
     const accessToken = authResponse.body.accessToken;
-    // send request to create customer
+    // send request to create allocation
     const data = {
-      code: "A1",
-      name: "customer A",
-      email: "customer-a@example.com",
-      address: "Customer Address",
-      phone: "+62812345678",
+      allocationGroup_id: "A1",
+      name: "allocation A",
     };
-    await request(app).post("/v1/customers").send(data).set("Authorization", `Bearer ${accessToken}`);
-    const response = await request(app).post("/v1/customers").send(data).set("Authorization", `Bearer ${accessToken}`);
+    await request(app).post("/v1/allocations").send(data).set("Authorization", `Bearer ${accessToken}`);
+    const response = await request(app).post("/v1/allocations").send(data).set("Authorization", `Bearer ${accessToken}`);
 
     expect(response.statusCode).toEqual(422);
     expect(response.body.message).toBe("Unprocessable Entity");
-    expect(response.body.errors.code).toBe(["code is exists"]);
+    expect(response.body.errors.name).toBe(["name is exists"]);
   });
   it("should save to database", async () => {
     const app = await createApp();
@@ -83,28 +77,22 @@ describe("create customer", () => {
       password: "admin2024",
     });
     const accessToken = authResponse.body.accessToken;
-    // send request to create customer
+    // send request to create allocation
     const data = {
-      code: "A1",
-      name: "customer A",
-      email: "customer-a@example.com",
-      address: "Customer Address",
-      phone: "+62812345678",
+      allocationGroup_id: "A1",
+      name: "allocation A",
     };
-    const response = await request(app).post("/v1/customers").send(data).set("Authorization", `Bearer ${accessToken}`);
+    const response = await request(app).post("/v1/allocations").send(data).set("Authorization", `Bearer ${accessToken}`);
     // expected response status
     expect(response.statusCode).toEqual(201);
     // expected response body
     expect(response.body._id).not.toBeNull();
     // expected database data by user input
-    const customerService = new CustomerService(db);
-    const result = customerService.read(response.body._id);
+    const allocationservice = new allocationservice(db);
+    const result = allocationservice.read(response.body._id);
     expect(result._id).toEqual(data._id);
-    expect(result.code).toEqual(data.code);
+    expect(result.allocationGroup_id).toEqual(data.allocationGroup_id);
     expect(result.name).toEqual(data.name);
-    expect(result.email).toEqual(data.email);
-    expect(result.address).toEqual(data.address);
-    expect(result.phone).toEqual(data.phone);
     // expected database data generated by system
     expect(result.createdAt instanceof Date).toBeTruthy();
     expect(result.createdBy_id).toBe(authResponse.body._id);
