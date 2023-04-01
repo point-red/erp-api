@@ -24,10 +24,9 @@ describe("archive machine", () => {
     const app = await createApp();
     // // // send request to create machine
     const response = await request(app).patch("/v1/machines/" + _id + "/archive");
-    // const response = await request(app).patch("/v1/machines/" + _id + "/archive");
     console.log("ini response patch ", response.body);
     expect(response.statusCode).toEqual(401);
-    // expect(response.body.status).toBe("Unauthorized");
+    expect(response.body.status).toBe("Unauthorized");
   });
 
   // it("should check user have permission to access", async () => {
