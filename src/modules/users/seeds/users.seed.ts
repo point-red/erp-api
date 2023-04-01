@@ -14,7 +14,7 @@ const result = await roleRepository.readMany({
 
 const roles = result.data as unknown as Array<RoleInterface>;
 
-const password = await hash("admin123");
+const password = await hash("admin2024");
 
 export const usersSeed = [
   {
