@@ -6,7 +6,7 @@ describe("update machine", () => {
   beforeEach(async () => {
     const app = await createApp();
     // get access token for authorization request
-    const authResponse = await request(app).patch("/v1/auth/signin").send({
+    const authResponse = await request(app).post("/v1/auth/signin").send({
       username: "admin",
       password: "admin2024",
     });
