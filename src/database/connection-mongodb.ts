@@ -185,7 +185,6 @@ export default class MongoDbConnection implements IDatabaseAdapter {
         _id: "response.insertedId.toString()",
       };
     } catch (error) {
-      console.log(error);
       if (error instanceof MongoServerError) {
         throw new MongoError(error);
       }

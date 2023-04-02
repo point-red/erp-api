@@ -14,7 +14,7 @@ export const create = async (req: Request, res: Response, next: NextFunction) =>
     const authorizationHeader = req.headers.authorization ?? "";
 
     if (authorizationHeader === "") {
-      throw new ApiError(401, { message: "Unauthorized Access" });
+      throw new ApiError(401);
     }
     const authUser = await verifyTokenService.handle(authorizationHeader);
     const found = authUser.permissions.includes("create-item");
@@ -22,7 +22,6 @@ export const create = async (req: Request, res: Response, next: NextFunction) =>
       throw new ApiError(403);
     }
 
-    await validate(req.body, "create");
     const userId: string = authUser._id?.toString() || "";
     const result = await createItemService.handle(userId, req.body, session);
 
@@ -31,7 +30,6 @@ export const create = async (req: Request, res: Response, next: NextFunction) =>
       _id: result._id,
     });
   } catch (error) {
-    console.log(error, "ini error");
     await db.abortTransaction();
     next(error);
   } finally {

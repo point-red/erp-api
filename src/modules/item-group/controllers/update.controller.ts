@@ -32,7 +32,6 @@ export const update = async (req: Request, res: Response, next: NextFunction) =>
 
     res.status(204).json();
   } catch (error) {
-    console.log(error, "ini error mas");
     await db.abortTransaction();
     next(error);
   } finally {

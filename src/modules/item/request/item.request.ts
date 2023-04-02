@@ -53,15 +53,12 @@ Validatorjs.registerAsync(
         });
       }
 
-      console.log(method, "ini methdo", column);
-
       if (column === "name") {
         aggregates.push({
           $match: {
             name: value,
           },
         });
-        console.log(method, "ini methdo", column, value);
       }
 
       const itemRepository = new ItemRepository(db);
@@ -72,7 +69,6 @@ Validatorjs.registerAsync(
 
       const result = (await aggregateResult) as any;
 
-      console.log("masuk kesini", aggregates);
       if (result.data.length > 0) {
         passes(false, `${column} is exists`); // return false if value exists
         return;

@@ -55,10 +55,8 @@ Validatorjs.registerAsync(
         page: 1,
         pageSize: 10,
       });
-      console.log(aggregates, "ini agregates");
 
       const result = (await aggregateResult) as any;
-      console.log(result, method, "method");
       if (result.data.length > 0) {
         passes(false, `${column} is exists`); // return false if value exists
         return;

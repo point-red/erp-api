@@ -3,12 +3,12 @@ import { createApp } from "@src/app.js";
 
 describe("archive supplier", () => {
   let _id = "";
-  beforeEach(async () => {
+  beforeAll(async () => {
     const app = await createApp();
     // get access token for authorization request
-    const authResponse = await request(app).patch("/v1/auth/signin").send({
+    const authResponse = await request(app).post("/v1/auth/signin").send({
       username: "admin",
-      password: "admin2024",
+      password: "admin123",
     });
     const accessToken = authResponse.body.accessToken;
     // send request to create supplier
@@ -36,7 +36,7 @@ describe("archive supplier", () => {
     // get access token for authorization request
     const authResponse = await request(app).post("/v1/auth/signin").send({
       username: "user",
-      password: "user2024",
+      password: "admin123",
     });
     const accessToken = authResponse.body.accessToken;
     // send request to read supplier
@@ -54,9 +54,10 @@ describe("archive supplier", () => {
     // get access token for authorization request
     const authResponse = await request(app).post("/v1/auth/signin").send({
       username: "admin",
-      password: "admin2024",
+      password: "admin123",
     });
     const accessToken = authResponse.body.accessToken;
+
     const responseDelete = await request(app)
       .patch("/v1/suppliers/" + _id + "/archive")
       .set("Authorization", `Bearer ${accessToken}`);
@@ -69,6 +70,6 @@ describe("archive supplier", () => {
     // expected response status
     expect(response.statusCode).toEqual(200);
     // expected response body
-    expect(response.body.isArchived).toBe(true);
+    expect(response.body.data.isArchived).toBe(true);
   });
 });

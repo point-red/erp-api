@@ -31,7 +31,6 @@ export const create = async (req: Request, res: Response, next: NextFunction) =>
       _id: result._id,
     });
   } catch (error) {
-    console.log(error, "error create controller");
     await db.abortTransaction();
     next(error);
   } finally {
