@@ -15,8 +15,6 @@ export class ReadUserByEmailService {
       sort: "",
     };
 
-    console.log(query);
-
     const userRepository = new UserRepository(this.db);
     const result = await userRepository.readMany(query);
 

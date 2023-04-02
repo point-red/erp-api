@@ -12,7 +12,7 @@ export const restore = async (req: Request, res: Response, next: NextFunction) =
 
     const authorizationHeader = req.headers.authorization ?? "";
     if (authorizationHeader === "") {
-      throw new ApiError(401, { message: "Unauthorized Access" });
+      throw new ApiError(401);
     }
 
     const verifyTokenUserService = new VerifyTokenUserService(db);

@@ -26,15 +26,12 @@ export const update = async (req: Request, res: Response, next: NextFunction) =>
     }
     await validate(req.body, "update");
     const userId: string = authUser._id?.toString() || "";
-    console.log(req.params.id, "ini params id");
     await updateRoleService.handle(userId, req.params.id, req.body, session);
 
     await db.commitTransaction();
 
     res.status(204).json();
   } catch (error) {
-    console.log("ini seharisnya error");
-    console.log(error);
     await db.abortTransaction();
     next(error);
   } finally {

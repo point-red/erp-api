@@ -3,7 +3,7 @@ import { createApp } from "@src/app.js";
 
 describe("archive item", () => {
   let _id = "";
-  beforeEach(async () => {
+  beforeAll(async () => {
     const app = await createApp();
     // get access token for authorization request
     const authResponse = await request(app).post("/v1/auth/signin").send({
@@ -33,6 +33,7 @@ describe("archive item", () => {
     const app = await createApp();
     // send request to create item
     const response = await request(app).patch("/v1/items/" + _id + "/archive");
+    console.log(response.body);
     expect(response.statusCode).toEqual(401);
     expect(response.body.code).toEqual(401);
     expect(response.body.status).toBe("Unauthorized");
