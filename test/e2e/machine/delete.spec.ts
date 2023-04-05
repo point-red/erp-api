@@ -16,9 +16,7 @@ describe("delete machine", () => {
       name: "machine A",
     };
     const response = await request(app).post("/v1/machines").send(data).set("Authorization", `Bearer ${accessToken}`);
-    console.log(response.body);
     _id = response.body._id;
-    console.log(_id);
   });
 
   it("should check user is authorized", async () => {
@@ -54,7 +52,6 @@ describe("delete machine", () => {
       password: "admin2024",
     });
     const accessToken = authResponse.body.accessToken;
-    console.log(accessToken);
     const responseDelete = await request(app)
       .delete("/v1/machines/" + _id)
       .set("Authorization", `Bearer ${accessToken}`);
