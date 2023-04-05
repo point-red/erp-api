@@ -24,7 +24,6 @@ describe("archive machine", () => {
     const app = await createApp();
     // // // send request to create machine
     const response = await request(app).patch("/v1/machines/" + _id + "/archive");
-    console.log("ini response patch ", response.body);
     expect(response.statusCode).toEqual(401);
     expect(response.body.status).toBe("Unauthorized");
   });
@@ -54,15 +53,12 @@ describe("archive machine", () => {
   //     password: "admin2024",
   //   });
   //   const accessToken = authResponse.body.accessToken;
-  //   console.log("ini token ", accessToken);
 
   //   const responseDelete = await request(app)
   //     .patch("/v1/machines/" + _id + "/archive")
   //     .set("Authorization", `Bearer ${_accessToken}`);
   //   // expected response status
   //   expect(responseDelete.statusCode).toEqual(204);
-
-  //   console.log("response body ", responseDelete);
 
   //   const response = await request(app)
   //     .get("/v1/machines/" + _id)
