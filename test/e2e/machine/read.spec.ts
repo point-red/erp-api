@@ -102,7 +102,6 @@ describe("read machine", () => {
       .post("/v1/machines")
       .send(data)
       .set("Authorization", `Bearer ${accessToken}`);
-    console.log("ini body id " + responseCreate.body._id);
     const response = await request(app)
       .get("/v1/machines/" + responseCreate.body._id)
       .set("Authorization", `Bearer ${accessToken}`);
