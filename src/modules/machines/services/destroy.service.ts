@@ -9,12 +9,5 @@ export class DestroyMachineService {
   public async handle(id: string, options?: DeleteOptionsInterface) {
     const machineRepository = new MachineRepository(this.db);
     return await machineRepository.delete(id, options);
-
-    // const machineEntity = new MachineEntity({
-    //   name: doc.name,
-    // });
-
-    // const machineRepository = new MachineRepository(this.db);
-    // return await machineRepository.update(id, machineEntity.machine, options);
   }
 }
