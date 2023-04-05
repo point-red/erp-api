@@ -10,7 +10,6 @@ export class ReadMachineService {
   }
   public async handle(id: string, filter?: any) {
     const machineRepository = new MachineRepository(this.db);
-    console.log("read", id);
     const aggregates: any = [
       {
         $match: {
