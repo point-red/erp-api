@@ -6,7 +6,7 @@ export const restrictedFields = [];
 
 const isExists = async (db: IDatabaseAdapter) => {
   const collections = (await db.listCollections()) as [];
-  return collections.some(function (el: any) {
+  return collections.some(function(el: any) {
     return el.name === name;
   });
 };
@@ -23,55 +23,55 @@ export async function createCollection(db: IDatabaseAdapter) {
       properties: {
         createdAt: {
           bsonType: "date",
-          description: "must be a date and is required",
+          description: "must be a date and is required"
         },
         updatedAt: {
           bsonType: "date",
-          description: "must be a date and is required",
+          description: "must be a date and is required"
         },
         createdBy_id: {
           bsonType: "string",
-          description: "must be a string and is required",
+          description: "must be a string and is required"
         },
         updatedBy_id: {
           bsonType: "string",
-          description: "must be a string and is required",
+          description: "must be a string and is required"
         },
         code: {
           bsonType: "string",
-          description: "must be a string and is required",
+          description: "must be a string and is required"
         },
         name: {
           bsonType: "string",
-          description: "must be a string and is required",
+          description: "must be a string and is required"
         },
         address: {
           bsonType: "string",
-          description: "must be a string and is required",
+          description: "must be a string and is required"
         },
         email: {
           bsonType: "string",
-          description: "must be a string and is required",
+          description: "must be a string and is required"
         },
         isArchived: {
           bsonType: "bool",
-          description: "must be a string and is required",
+          description: "must be a string and is required"
         },
         phone: {
           bsonType: "string",
-          description: "must be a string and is required",
-        },
-      },
+          description: "must be a string and is required"
+        }
+      }
     });
     await db.createIndex(
       name,
-      { code: -1 },
+      { code: -1, name: -1 },
       {
         unique: true,
         collation: {
           locale: "en",
-          strength: 2,
-        },
+          strength: 2
+        }
       }
     );
   } catch (error) {

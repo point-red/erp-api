@@ -11,9 +11,7 @@ export const restore = async (req: Request, res: Response, next: NextFunction) =
     await archiveService.handle({ headers: req.headers, id: req.params.id }, session);
 
     await db.commitTransaction();
-    res.status(204).json({
-      isArchived: false,
-    });
+    res.status(204);
   } catch (error) {
     await db.abortTransaction();
     next(error);
