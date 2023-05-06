@@ -35,6 +35,7 @@ export class SigninUserService {
     const refreshToken = generateRefreshToken(issuer, secretKey, result.data[0]._id);
 
     return {
+      _id: result.data[0]._id,
       name: result.data[0].name,
       email: result.data[0].email,
       username: result.data[0].username,
