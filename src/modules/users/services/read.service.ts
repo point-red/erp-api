@@ -10,12 +10,14 @@ export class ReadUserService {
   }
   public async handle(id: string, filter?: any) {
     const userRepository = new UserRepository(this.db);
-    console.log("read", id);
     const aggregates: any = [
       {
         $match: {
           _id: new ObjectId(id),
         },
+      },
+      {
+        $lookup: { from: "roles", localField: "role_id", foreignField: "_id", as: "role" },
       },
       { $limit: 1 },
     ];
@@ -28,7 +30,10 @@ export class ReadUserService {
       aggregates.push({ $unset: filter.restrictedFields });
     }
 
-    const aggregateResult = userRepository.aggregate(aggregates, { page: 1, pageSize: 10 });
+    const aggregateResult = userRepository.aggregate(aggregates, {
+      page: 1,
+      pageSize: 10,
+    });
 
     const result = (await aggregateResult) as any;
 

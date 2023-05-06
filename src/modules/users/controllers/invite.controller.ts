@@ -33,7 +33,6 @@ export const invite = async (req: Request, res: Response, next: NextFunction) =>
       _id: "result._id",
     });
   } catch (error) {
-    console.log("error,", error);
     await db.abortTransaction();
     next(error);
   } finally {

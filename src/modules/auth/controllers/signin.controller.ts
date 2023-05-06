@@ -5,7 +5,6 @@ import { db } from "@src/database/database.js";
 
 export const signin = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    console.log(req.body);
     validate(req.body);
 
     const signinUserService = new SigninUserService(db);

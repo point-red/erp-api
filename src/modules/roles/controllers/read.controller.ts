@@ -8,7 +8,6 @@ export const read = async (req: Request, res: Response, next: NextFunction) => {
     const readRoleService = new ReadRoleService(db);
     const result = (await readRoleService.handle(req.params.id)) as RoleInterface;
 
-    console.log(result);
     res.status(200).json({
       _id: result._id,
       name: result.name,

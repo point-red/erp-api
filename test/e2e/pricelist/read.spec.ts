@@ -7,28 +7,32 @@ describe("list all pricelists", () => {
     // send request to create item
     const response = await request(app).get("/v1/pricelists");
     expect(response.statusCode).toEqual(401);
-    expect(response.body.message).toBe("Unauthorized Access");
+    expect(response.body.code).toEqual(401);
+    expect(response.body.status).toBe("Unauthorized");
+    expect(response.body.message).toBe("Authentication credentials is invalid.");
   });
   it("should check user have permission to access", async () => {
     const app = await createApp();
     // get access token for authorization request
     const authResponse = await request(app).post("/v1/auth/signin").send({
       username: "user",
-      password: "user2024",
+      password: "admin123",
     });
     const accessToken = authResponse.body.accessToken;
     // send request to read pricelist
     const response = await request(app).get("/v1/pricelists").set("Authorization", `Bearer ${accessToken}`);
 
     expect(response.statusCode).toEqual(403);
-    expect(response.body.message).toBe("Forbidden Access");
+    expect(response.body.code).toEqual(403);
+    expect(response.body.status).toBe("Forbidden");
+    expect(response.body.message).toBe("Don't have necessary permissions for this resource.");
   });
   it("should read data from database", async () => {
     const app = await createApp();
     // get access token for authorization request
     const authResponse = await request(app).post("/v1/auth/signin").send({
       username: "admin",
-      password: "admin2024",
+      password: "admin123",
     });
     const accessToken = authResponse.body.accessToken;
 
@@ -69,28 +73,32 @@ describe("read pricelist", () => {
     // send request to create item
     const response = await request(app).get("/v1/pricelists");
     expect(response.statusCode).toEqual(401);
-    expect(response.body.message).toBe("Unauthorized Access");
+    expect(response.body.code).toEqual(401);
+    expect(response.body.status).toBe("Unauthorized");
+    expect(response.body.message).toBe("Authentication credentials is invalid.");
   });
   it("should check user have permission to access", async () => {
     const app = await createApp();
     // get access token for authorization request
     const authResponse = await request(app).post("/v1/auth/signin").send({
       username: "user",
-      password: "user2024",
+      password: "admin123",
     });
     const accessToken = authResponse.body.accessToken;
     // send request to read pricelist
     const response = await request(app).get("/v1/pricelists").set("Authorization", `Bearer ${accessToken}`);
 
     expect(response.statusCode).toEqual(403);
-    expect(response.body.message).toBe("Forbidden Access");
+    expect(response.body.code).toEqual(403);
+    expect(response.body.status).toBe("Forbidden");
+    expect(response.body.message).toBe("Don't have necessary permissions for this resource.");
   });
   it("should read data from database", async () => {
     const app = await createApp();
     // get access token for authorization request
     const authResponse = await request(app).post("/v1/auth/signin").send({
       username: "admin",
-      password: "admin2024",
+      password: "admin123",
     });
     const accessToken = authResponse.body.accessToken;
 
