@@ -13,6 +13,7 @@ export const signin = async (req: Request, res: Response, next: NextFunction) =>
     const result = await signinUserService.handle(req.body.username, req.body.password);
 
     res.status(200).json({
+      _id: result._id,
       name: result.name,
       email: result.email,
       username: result.username,
